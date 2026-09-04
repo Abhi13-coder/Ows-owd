@@ -1,0 +1,47 @@
+// OWS — async HTTP (non-blocking, safe for long requests)
+// 1) start request with *_async
+// 2) handle result in when <event> { ... }
+// 3) read response with http.result or http.result("eventName")
+
+attach src = "widget.owd"
+string statusText = "Tap GET or POST"
+
+when Fetch.clicked {
+    Status.txt = "Loading (async)..."
+    Body.txt = ""
+    // background thread — UI stays responsive
+    http.get_async("https://httpbin.org/get", "onGet")
+}
+
+when onGet {
+    var res = http.result("onGet")
+    if res.ok {
+        Status.txt = "OK " + str(res.status)
+        var origin = res.json["origin"]
+        Body.txt = "origin=" + str(origin)
+    } else {
+        Status.txt = "Error"
+        Body.txt = str(res.error)
+    }
+}
+
+when PostBtn.clicked {
+    Status.txt = "Posting (async)..."
+    Body.txt = ""
+    var payload = {
+        "msg": "hello from OWS",
+        "n": 42
+    }
+    http.post_async("https://httpbin.org/post", payload, "onPost")
+}
+
+when onPost {
+    var res = http.result("onPost")
+    if res.ok {
+        Status.txt = "Posted " + str(res.status)
+        Body.txt = str(res.json["json"])
+    } else {
+        Status.txt = "Post failed"
+        Body.txt = str(res.error)
+    }
+}

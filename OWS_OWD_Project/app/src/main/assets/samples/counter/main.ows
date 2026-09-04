@@ -1,0 +1,20 @@
+// OWS — logic (symbolic operators: + - * /)
+attach src = "widget.owd"
+number count = 0
+
+fun formatCount(n) {
+    return "Count: " + str(n)
+}
+
+when Plus.clicked {
+    count = count + 1
+    Counter.txt = formatCount(count)
+}
+
+when Minus.clicked {
+    count = count - 1
+    if count < 0 {
+        count = 0
+    }
+    Counter.txt = formatCount(count)
+}

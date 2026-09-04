@@ -1,0 +1,40 @@
+Widget ApiDemo {
+    width: 300
+    height: 220
+    radius: 20
+    background: "#121212"
+
+    Text Status {
+        txt: "Tap Fetch"
+        size: 18
+        x: 16
+        y: 16
+    }
+
+    Text Body {
+        txt: ""
+        size: 14
+        x: 16
+        y: 50
+    }
+
+    Button Fetch {
+        txt: "GET"
+        x: 16
+        y: 150
+        width: 80
+        height: 44
+        radius: 10
+        background: "#2E7D32"
+    }
+
+    Button PostBtn {
+        txt: "POST"
+        x: 110
+        y: 150
+        width: 80
+        height: 44
+        radius: 10
+        background: "#1565C0"
+    }
+}

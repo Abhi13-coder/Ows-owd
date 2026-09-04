@@ -1,0 +1,33 @@
+Widget CounterRoot {
+    width: 260
+    height: 160
+    radius: 24
+    background: "#151515"
+
+    Text Counter {
+        txt: "Count: 0"
+        size: 28
+        x: 16
+        y: 24
+    }
+
+    Button Minus {
+        txt: "-"
+        x: 16
+        y: 90
+        width: 50
+        height: 48
+        radius: 12
+        background: "#333333"
+    }
+
+    Button Plus {
+        txt: "+"
+        x: 190
+        y: 90
+        width: 50
+        height: 48
+        radius: 12
+        background: "#1E88E5"
+    }
+}

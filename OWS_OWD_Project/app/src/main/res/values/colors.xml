@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="editor_bg">#0D1117</color>
+    <color name="editor_fg">#E6EDF3</color>
+    <color name="keyword">#FF7B72</color>
+    <color name="string">#A5D6FF</color>
+    <color name="number">#79C0FF</color>
+    <color name="comment">#8B949E</color>
+    <color name="widget">#D2A8FF</color>
+    <color name="panel_bg">#161B22</color>
+    <color name="accent">#1E88E5</color>
+</resources>
