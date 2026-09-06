@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OWS/OWD IDE</string>
+    <string name="action_compile">Compile</string>
+    <string name="action_run">Run Overlay</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_save">Save</string>
+    <string name="action_save_as">Save As…</string>
+    <string name="action_open">Open…</string>
+    <string name="action_rename">Rename…</string>
+    <string name="action_delete">Delete Project</string>
+    <string name="action_load_sample">Load Sample</string>
+    <string name="action_new_project">New Project</string>
+    <string name="no_projects_saved">No saved projects yet — use Save As to create one.</string>
+    <string name="tab_ows">OWS</string>
+    <string name="tab_owd">OWD</string>
+    <string name="tab_preview">Preview</string>
+    <string name="tab_errors">Errors</string>
+    <string name="permission_overlay">Overlay permission is required to show floating widgets.</string>
+    <string name="channel_overlay">OWS Overlay</string>
+    <string name="channel_overlay_desc">Floating overlay widgets</string>
+</resources>
