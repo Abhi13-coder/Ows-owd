@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sample"
+        android:title="@string/action_load_sample"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_api_sample"
+        android:title="Load API sample"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_open"
+        android:title="@string/action_open"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_save_as"
+        android:title="@string/action_save_as"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rename"
+        android:title="@string/action_rename"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_new"
+        android:title="@string/action_new_project"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_render_auto"
+        android:title="Renderer: Auto"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_render_gles"
+        android:title="Renderer: OpenGL ES"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_render_vulkan"
+        android:title="Renderer: Vulkan"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_render_canvas"
+        android:title="Renderer: Canvas"
+        app:showAsAction="never" />
+</menu>
