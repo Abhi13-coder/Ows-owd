@@ -26,6 +26,7 @@ kotlin {
 
 application {
     mainClass.set("com.owsowd.cli.Main")
+    applicationName = "ows"
 }
 
 dependencies {
