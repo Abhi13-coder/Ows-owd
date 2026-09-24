@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark">
+<title>OWS + OWD — The Overlay Widget Scripting Language</title>
+<meta name="description" content="OWS + OWD is a scripting language for always-on-top overlay widgets that draw over other apps on Android, Linux, and Windows. Try the live playground.">
+<meta name="keywords" content="Ows, Owd, overlay widget, overlay language, draw over apps, Android overlay, desktop HUD, widget script, declarative UI, OWS OWD">
+<meta name="author" content="Abhi13-coder">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="google-site-verification" content="Xh8WUlAE8yX49rQOFvQjEhPYdgRX06Qkj1JNd-0ZVys" />
+<link rel="canonical" href="https://abhi13-coder.github.io/Ows-owd/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OWS + OWD">
+<meta property="og:title" content="OWS + OWD — Draw Over Everything">
+<meta property="og:description" content="Overlay Widget Script + Overlay Widget Design. A language for interactive overlays: logic in OWS, looks in OWD. Run headless or as real overlays across hosts.">
+<meta property="og:url" content="https://abhi13-coder.github.io/Ows-owd/">
+<meta property="og:image" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<meta property="og:image:secure_url" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="OWS + OWD — Overlay Widget Script and Design">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OWS + OWD — Draw Over Everything">
+<meta name="twitter:description" content="Overlay Widget Script + Overlay Widget Design. Logic in OWS, looks in OWD. Interactive overlays across Android, Linux, and Windows.">
+<meta name="twitter:image" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<meta name="twitter:image:alt" content="OWS + OWD logo">
+
+<!-- Icons -->
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='10' width='11' height='11' rx='3' fill='none' stroke='%23586258' stroke-width='2'/%3E%3Crect x='6' y='6' width='11' height='11' rx='3' fill='none' stroke='%238fa393' stroke-width='2'/%3E%3Crect x='9' y='2' width='12' height='12' rx='3' fill='%233DDC84'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="logo.png">
+<meta name="application-name" content="OWS + OWD">
+<meta name="apple-mobile-web-app-title" content="OWS + OWD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "OWS + OWD",
+  "alternateName": ["Overlay Widget Script", "Overlay Widget Design", "OWS", "OWD", "OWS language"],
+  "description": "A scripting language for building interactive overlay widgets. OWS is the logic (events, state, classes, API). OWD is the design (layout, style). Supports headless CLI and real overlays across Android, Linux, and Windows.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Android, Linux, Windows",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Abhi13-coder", "url": "https://github.com/Abhi13-coder" },
+  "codeRepository": "https://github.com/Abhi13-coder/OWS-OWD",
+  "url": "https://abhi13-coder.github.io/Ows-owd/",
+  "image": "https://abhi13-coder.github.io/Ows-owd/og.png",
+  "softwareVersion": "1.0"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#0A0D0B;--bg2:#0D110E;--line:#212923;--line2:#313C33;--tx:#F1F5EF;--mut:#9DAA9F;--dim:#5E6B60;--ac:#3DDC84;--ink:#06130A;--acd:rgba(61,220,132,.12);--warn:#E8C878;
+--disp:'Space Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--serif:'Instrument Serif',Georgia,serif;--ease:cubic-bezier(.22,.9,.28,1)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16.5px/1.65 var(--disp);-webkit-font-smoothing:antialiased;overflow-x:clip;padding-bottom:0px}
+h1,h2,h3{margin:0;font-weight:600;line-height:1.05;letter-spacing:-.025em}
+p{margin:0}a{color:inherit}button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;touch-action:manipulation}
+::selection{background:var(--ac);color:var(--ink)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1120px,100% - clamp(40px,8vw,96px));margin-inline:auto}
+.fx{font:italic 400 1em var(--serif);color:var(--ac);letter-spacing:0}
+.kicker{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:20px}
+h2{font-size:clamp(1.8rem,4.6vw,3rem);max-width:22ch}
+.body{color:var(--mut);margin-top:18px;max-width:52ch}.body b{color:var(--tx);font-weight:600}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}.rv.in{opacity:1;transform:none}
+.bt{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 24px;border-radius:11px;font:600 15px var(--disp);text-decoration:none;transition:transform .15s,border-color .2s,color .2s}
+.bt:active{transform:scale(.97)}.bt.solid{background:var(--ac);color:var(--ink)}.bt.solid:hover{transform:translateY(-2px)}
+.bt.ghost{border:1px solid var(--line2)}.bt.ghost:hover{border-color:var(--ac);color:var(--ac)}
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:60;padding-top:0px;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.sc{background:rgba(10,13,11,.88);backdrop-filter:blur(10px);border-color:var(--line)}
+.hw{display:flex;align-items:center;gap:24px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:600 19px var(--disp)}.logo svg{width:24px;height:24px}
+nav{display:none;gap:26px;margin-left:auto}nav a{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-decoration:none}nav a:hover{color:var(--ac)}
+.hc{margin-left:auto}@media(min-width:900px){nav{display:flex}.hc{margin-left:0}}
+/* hero */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background-image:radial-gradient(rgba(240,245,239,.05) 1px,transparent 1px);background-size:26px 26px}
+.hi{position:relative;z-index:2;padding:120px 0 130px}
+h1{font-size:clamp(2.6rem,8.4vw,5.4rem);letter-spacing:-.03em;max-width:11ch}
+.lede{margin-top:24px;font-size:clamp(1rem,2.4vw,1.17rem);color:var(--mut);max-width:54ch}.lede b{color:var(--tx)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.note{margin-top:24px;font:400 12.5px var(--mono);color:var(--dim)}.note em{color:var(--ac);font-style:normal}
+/* overlay widget */
+.ow{position:relative;width:96px;height:96px;border-radius:999px;background:rgba(13,17,14,.85);border:1.5px solid var(--ac);display:grid;place-items:center;overflow:hidden;user-select:none;touch-action:none;
+transition:width .5s cubic-bezier(.2,.9,.25,1.15),height .5s cubic-bezier(.2,.9,.25,1.15),border-radius .5s cubic-bezier(.2,.9,.25,1.15),box-shadow .3s}
+/* hero scene — widget stays inside this box only */
+.hero-stage{position:relative;margin-top:28px;min-height:220px;border:1px solid var(--line);border-radius:18px;background:var(--bg2) radial-gradient(rgba(240,245,239,.055) 1px,transparent 1px);background-size:auto,22px 22px;display:grid;place-items:center;overflow:hidden}
+#ow{position:relative;z-index:2;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;cursor:grab;box-shadow:0 18px 50px -12px rgba(0,0,0,.7)}
+#ow.drag,.ow.drag{cursor:grabbing;box-shadow:0 0 0 1px rgba(61,220,132,.3),0 26px 60px -12px rgba(0,0,0,.85)}
+.ow svg{width:44px;height:44px;stroke:var(--ac);fill:none;stroke-width:1.6}
+.ow .cardv,.ow .pillv{display:none}
+.ow[data-s="card"]{width:224px;height:138px;border-radius:18px}
+.ow[data-s="card"] .dotv,.ow[data-s="pill"] .dotv{display:none}
+.ow[data-s="card"] .cardv{display:grid;gap:6px;text-align:center;font:600 12px var(--mono);color:var(--tx);padding:12px}
+.ow[data-s="card"] .cardv i{display:block;height:54px;border-radius:9px;background:linear-gradient(120deg,#3DDC84,#0f5c34,#3DDC84);background-size:200% 100%;animation:sh 2.4s linear infinite}
+.ow[data-s="pill"]{width:184px;height:54px}
+.ow[data-s="pill"] .pillv{display:block;font:600 13px var(--mono);color:var(--ac);white-space:nowrap}
+@keyframes sh{to{background-position:-200% 0}}
+@media(max-width:720px){.hero-stage{min-height:180px}#ow{width:78px;height:78px}#ow[data-s="card"]{width:190px;height:118px}#ow[data-s="pill"]{width:160px;height:48px}}
+/* samples + roadmap page chrome */
+.page-head{display:flex;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font:600 13px var(--mono);color:var(--mut);text-decoration:none;border:1px solid var(--line2);border-radius:99px;padding:10px 18px;transition:.2s}
+.back-btn:hover{color:var(--ac);border-color:var(--ac)}
+.sample-grid{display:grid;gap:28px;margin-top:36px}@media(min-width:900px){.sample-grid{grid-template-columns:1fr 1fr}}
+.run-box{margin-top:36px;border:1px solid var(--line2);border-radius:16px;background:var(--bg2);padding:26px}
+.run-box h3{font-size:1.25rem;margin:0 0 12px}
+.run-box ol{margin:12px 0 0;padding-left:20px;color:var(--mut);font-size:15px;line-height:1.7}
+.run-box code{font:600 13px var(--mono);color:var(--ac);background:var(--acd);padding:2px 7px;border-radius:6px}
+.roadmap-track{position:relative;margin-top:48px;padding-left:28px}
+.roadmap-track::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--ac),var(--line2))}
+.rm-item{position:relative;padding:0 0 40px 28px;opacity:0;transform:translateX(-16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rm-item.in{opacity:1;transform:none}
+.rm-item::before{content:"";position:absolute;left:-25px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--ac);box-shadow:0 0 0 4px var(--acd);transition:background .3s}
+.rm-item.done::before{background:var(--ac)}
+.rm-item .ver{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+.rm-item h3{font-size:1.35rem;margin:0 0 8px}
+.rm-item p{color:var(--mut);font-size:15px;line-height:1.6;margin:0;max-width:54ch}
+/* page enter animation */
+.page-section{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.page-section.in{opacity:1;transform:none}
+/* sections */
+section{padding:clamp(72px,11vw,128px) 0;border-top:1px solid var(--line)}
+.split{display:grid;gap:44px;align-items:center}@media(min-width:900px){.split{grid-template-columns:1.05fr .95fr;gap:70px}}
+.perm{display:inline-block;margin-top:22px;font:600 12px var(--mono);color:var(--ac);border:1px solid var(--line2);border-radius:99px;padding:9px 15px;background:var(--acd)}
+.stack{display:grid;gap:14px}
+.sl{display:flex;align-items:center;gap:12px;min-height:68px;padding:14px 20px;border:1px solid var(--line2);border-radius:14px;background:var(--bg2);font:600 13px var(--mono);color:var(--mut);transition:transform .7s var(--ease),opacity .7s}
+.stack .sl:nth-child(1){transform:translateY(32px);opacity:.4}.stack .sl:nth-child(2){transform:translateY(16px);opacity:.7}.stack.in .sl{transform:none;opacity:1}
+.sl.s3{border:1.5px solid var(--ac);background:linear-gradient(var(--acd),var(--acd)),var(--bg2);color:var(--tx);box-shadow:0 16px 44px -18px rgba(61,220,132,.35)}
+.sl .tag{font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac);border-radius:6px;padding:3px 7px}
+.sl .r{margin-left:auto;font:400 11px var(--mono);color:var(--dim)}.sl.s3 .r{color:var(--ac)}
+.cap{margin-top:16px;font:400 12px var(--mono);color:var(--dim)}
+/* code */
+.code{background:var(--bg2);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cb{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line)}
+.cb .fn{font:600 12.5px var(--mono)}.cb .lg{margin-left:auto;font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line2);border-radius:99px;padding:4px 9px}
+.cp{font:600 11px var(--mono);color:var(--mut);border:1px solid var(--line2);border-radius:8px;padding:8px 12px;transition:.2s}.cp:hover{color:var(--ac);border-color:var(--ac)}
+.cbody{padding:18px;overflow-x:auto;font:400 13.5px/1.75 var(--mono);white-space:pre;margin:0;min-height:230px}
+.tc{color:#5E6B60}.ts{color:#8FE3B4}.tk{color:var(--ac)}.tn{color:var(--warn)}
+/* playground */
+.pg{display:grid;gap:32px;margin-top:44px}@media(min-width:900px){.pg{grid-template-columns:1fr 1fr;gap:44px}}
+.stage{position:relative;min-height:360px;border:1px solid var(--line);border-radius:18px;background:var(--bg2) radial-gradient(rgba(240,245,239,.055) 1px,transparent 1px);background-size:auto,22px 22px;display:grid;place-items:center;overflow:hidden}
+.ctl{display:grid;gap:16px;align-content:start;margin-bottom:18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.row .lab{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);width:70px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.seg button{padding:10px 15px;min-height:42px;font:600 12.5px var(--mono);color:var(--mut);border-right:1px solid var(--line2);transition:.2s}.seg button:last-child{border:0}
+.seg button[aria-pressed="true"]{background:var(--ac);color:var(--ink)}
+/* hosts */
+.matrix{margin-top:44px;border-top:1px solid var(--line)}
+.mx{display:grid;grid-template-columns:170px 1fr auto;gap:6px 24px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:.5s var(--ease)}.mx.in{opacity:1;transform:none}
+.mx .h{font:600 13.5px var(--mono)}.mx .sig{font:400 12px var(--mono);color:var(--dim)}
+.st{font:600 10.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ac);border:1px solid rgba(61,220,132,.4);border-radius:99px;padding:7px 12px;background:var(--acd);white-space:nowrap}
+.mx.w .st{color:var(--warn);border-color:rgba(232,200,120,.4);background:rgba(232,200,120,.08)}
+@media(max-width:720px){.mx{grid-template-columns:1fr auto}.mx .sig{grid-column:1/-1;order:3}}
+/* footer */
+footer{border-top:1px solid var(--line);padding:56px 0 calc(56px + 0px);color:var(--dim);font:400 12.5px var(--mono)}
+.fw{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.duo{display:grid;gap:16px;margin-top:40px}@media(min-width:900px){.duo{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line2);border-radius:16px;background:var(--bg2);padding:26px}.card.hot{border-color:var(--ac);background:linear-gradient(var(--acd),var(--acd)),var(--bg2)}
+.card h3{font-size:1.4rem;margin:10px 0 8px}.card p{color:var(--mut);font-size:15px;line-height:1.6}.card .tag{font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac);border-radius:6px;padding:3px 7px}
+#gate{position:absolute;inset:0;z-index:5;display:grid;place-content:center;justify-items:center;gap:22px;background:var(--bg);transition:opacity .9s}
+#gate.off{opacity:0;pointer-events:none}
+#gate p{font:600 11.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin:0}
+#pwr{position:relative;width:104px;height:104px;border-radius:50%;border:1.5px solid var(--ac);background:rgba(61,220,132,.06);display:grid;place-items:center;transition:transform .5s var(--ease),box-shadow .5s,background .5s}
+#pwr svg{width:42px;height:42px;stroke:var(--ac);fill:none;stroke-width:2;stroke-linecap:round;transition:stroke .3s}
+#pwr::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid var(--ac);animation:pring 2.2s ease-out infinite}
+@keyframes pring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+#pwr.on{transform:scale(1.15);background:var(--ac);box-shadow:0 0 60px 10px rgba(61,220,132,.5)}#pwr.on svg{stroke:var(--ink)}#pwr.on::after{animation:none;opacity:0}
+#tv{position:absolute;inset:0;z-index:6;background:#b8ffd6;pointer-events:none;opacity:0;transform:scale(0,.004)}
+#tv.zap{animation:tvon 1.1s ease-out forwards}
+@keyframes tvon{0%{opacity:1;transform:scale(0,.004)}30%{opacity:1;transform:scale(1,.004)}100%{opacity:0;transform:scale(1,1)}}
+#mw{position:absolute;left:50%;top:44%;transform:translateX(-50%) scale(.6);opacity:0;z-index:3;transition:width .5s cubic-bezier(.2,.9,.25,1.15),height .5s cubic-bezier(.2,.9,.25,1.15),border-radius .5s cubic-bezier(.2,.9,.25,1.15),opacity .6s,transform .6s var(--ease)}
+#boot.demo #mw{opacity:1;transform:translateX(-50%)}
+#cap{position:absolute;left:0;right:0;top:70%;text-align:center;font:600 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);opacity:0;transition:opacity .4s;z-index:3}
+#boot.demo #cap{opacity:1}
+#term{position:absolute;z-index:3;left:20px;top:calc(0px + 22px);font:400 12px/1.95 var(--mono);color:var(--dim)}
+#term div{opacity:0;transform:translateX(-10px);transition:.4s}#term div.s{opacity:1;transform:none}#term b{color:var(--ac);font-weight:600}
+.card,.feat{position:relative;--x:50%;--y:50%}
+.card::before,.feat::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .3s;
+background:radial-gradient(220px circle at var(--x) var(--y),var(--ac),#7aa8ff 45%,transparent 75%);
+-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.card:hover::before,.card.t::before,.feat:hover::before,.feat.t::before{opacity:1}
+.feats{margin-top:40px;display:grid;gap:10px}@media(min-width:800px){.feats{grid-template-columns:1fr 1fr}}
+.feat{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:16px 18px;min-height:64px;border:1px solid var(--line2);border-radius:14px;background:var(--bg2);font:600 14.5px var(--disp)}
+.feat .bx{width:24px;height:24px;flex:0 0 auto;border:1.5px solid var(--line2);border-radius:7px;display:grid;place-items:center;transition:.25s}
+.feat .bx svg{width:14px;height:14px;stroke:var(--ink);fill:none;stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s ease .1s}
+.feat[aria-checked="true"] .bx{background:var(--ac);border-color:var(--ac)}.feat[aria-checked="true"] .bx svg{stroke-dashoffset:0}
+.feat small{display:block;font:400 12px var(--mono);color:var(--dim);margin-top:2px}
+.fcount{margin-top:18px;font:600 12px var(--mono);color:var(--ac)}
+@media(prefers-reduced-motion:reduce){.rv,.mx{opacity:1;transform:none}}
+/* boot */
+body.lock{overflow:hidden}
+body.pre>main,body.pre>header,body.pre>footer{visibility:hidden}
+#boot{position:fixed;top:0;left:0;width:100%;height:100%;z-index:200;background:var(--bg);overflow:hidden}
+#boot.done{background:transparent}
+#boot .panes{position:absolute;inset:0;display:flex}
+#boot .panes i{flex:1;background:var(--bg);border-right:1px solid var(--line);transition:transform .75s cubic-bezier(.76,0,.24,1)}
+#boot .panes i:last-child{border:0}
+#boot.done .panes i{transform:translateY(-101.5%)}
+#boot.done .panes i:nth-child(2){transition-delay:.06s}#boot.done .panes i:nth-child(3){transition-delay:.12s}#boot.done .panes i:nth-child(4){transition-delay:.18s}#boot.done .panes i:nth-child(5){transition-delay:.24s}
+.bin{position:absolute;inset:0;z-index:2;transition:opacity .35s,transform .5s cubic-bezier(.76,0,.24,1)}
+#boot.done .bin{opacity:0;transform:translateY(-30px)}
+#bc{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bmid{position:absolute;left:50%;top:64%;transform:translateX(-50%);text-align:center;width:100%}
+.bword{font:600 clamp(2.2rem,8vw,3.6rem)/1 var(--disp);letter-spacing:-.03em}
+.bword span{display:inline-block;opacity:0;transform:translateY(20px);transition:.5s var(--ease)}
+#boot.word .bword span{opacity:1;transform:none}
+#boot.word .bword span:nth-child(2){transition-delay:.1s}#boot.word .bword span:nth-child(3){transition-delay:.2s}
+#duo{position:absolute;left:0;right:0;top:58%;display:grid;grid-template-columns:1fr 1fr;text-align:center;opacity:0;transform:translateY(14px);transition:opacity .8s,transform .8s var(--ease)}
+#boot.s-duo #duo{opacity:1;transform:none}
+#duo b{display:block;font:600 clamp(2rem,9vw,3.4rem)/1 var(--disp);letter-spacing:-.03em;color:var(--ac)}#duo>div:last-child b{color:#7aa8ff}
+#duo em{display:block;font:normal 400 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:10px;padding:0 8px}
+#duo small{display:block;font:400 12px var(--mono);color:var(--dim);margin-top:4px}
+#boot.word .bword span:nth-child(4){transition-delay:.3s}#boot.word .bword span:nth-child(5){transition-delay:.4s}#boot.word .bword span:nth-child(6){transition-delay:.5s}#boot.word .bword span:nth-child(7){transition-delay:.6s}
+.bword{font-size:clamp(1.9rem,7.4vw,3.3rem)!important;white-space:nowrap}.bword span:nth-child(4){color:var(--dim);margin:0 .18em}
+.bsub{margin-top:12px;font:400 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);opacity:0;transition:opacity .5s .3s}
+#boot.word .bsub{opacity:1}
+.bbar{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--line);z-index:3}
+#bf{height:100%;width:0;background:var(--ac)}
+#skipB{position:absolute;right:16px;bottom:calc(16px + 0px);z-index:4;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line2);border-radius:99px;padding:11px 16px}
+#skipB:hover{color:var(--ac);border-color:var(--ac)}
+</style>
+<noscript><style>#boot{display:none}body.lock{overflow:auto}</style></noscript>
+</head>
+<body class="lock pre">
+<div id="boot" aria-hidden="true"><div class="panes"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="bin"><canvas id="bc"></canvas><div id="term"></div><div id="duo"><div><b>OWS</b><em>Overlay Widget Script</em><small>the logic</small></div><div><b>OWD</b><em>Overlay Widget Design</em><small>the looks</small></div></div><div id="mw" class="ow" data-s="dot"><svg class="dotv" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="2.5" fill="#3DDC84"/></svg><div class="cardv"><i></i>cover.gif</div><span class="pillv">● overlay live</span></div><div id="cap"></div><div class="bmid"><div class="bword"><span>O</span><span>W</span><span>S</span><span>+</span><span>O</span><span>W</span><span>D</span></div><div class="bsub">script + design</div></div></div>
+<div id="gate"><button id="pwr" aria-label="Power on"><svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></svg></button><p>tap to power on</p></div>
+<div id="tv"></div>
+<div class="bbar"><div id="bf"></div></div><button id="skipB">Skip</button></div>
+<header id="hd"><div class="wrap hw">
+<a class="logo" href="#top"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="10" width="11" height="11" rx="3" stroke="#586258"/><rect x="6" y="6" width="11" height="11" rx="3" stroke="#8fa393"/><rect x="9" y="2" width="12" height="12" rx="3" fill="#3DDC84"/></svg>OWS<span style="color:var(--dim);font-weight:400"> + </span>OWD</a>
+<nav><a href="get-started.html">Get Started</a><a href="docs.html">Docs</a><a href="#lang">Syntax</a><a href="samples.html">Samples</a><a href="#roadmap">Roadmap</a><a href="#hosts">Hosts</a></nav>
+<div class="hc" style="display:flex;gap:10px;align-items:center">
+<a class="bt ghost" style="min-height:40px;padding:8px 14px;font-size:13px" href="https://github.com/Abhi13-coder/OWS-OWD" target="_blank" rel="noopener">GitHub</a>
+<a class="bt solid" style="min-height:40px;padding:8px 16px;font-size:13.5px" href="#play">Try it</a>
+</div>
+</div></header>
+
+<main id="top">
+<div id="hero"><div class="wrap hi">
+<div class="kicker">An overlay widget scripting language</div>
+<h1>OWS + OWD — draw over <span class="fx">everything.</span></h1>
+<p class="lede">Android can't draw anywhere on screen the way Windows can. <b>OWS</b> and <b>OWD</b> are two halves of one scripting language for overlays: <b>OWS</b> is the logic, <b>OWD</b> is the look. Together they put widgets above every app, on any host, with no setup.</p>
+<div class="ctas">
+<a class="bt solid" href="#play">Open the playground</a>
+<a class="bt ghost" href="get-started.html">Get Started</a>
+<a class="bt ghost" href="docs.html">Docs</a>
+<a class="bt ghost" href="samples.html">Samples</a>
+<a class="bt ghost" href="#roadmap">Roadmap</a>
+<a class="bt ghost" href="https://github.com/Abhi13-coder/OWS-OWD" target="_blank" rel="noopener">GitHub</a>
+</div>
+<p class="note"><em>Try it:</em> drag the widget <b>inside the scene box</b> below, or tap it to morph.</p>
+<div class="hero-stage" id="heroStage">
+<div class="ow" id="ow" data-s="dot" role="button" tabindex="0" aria-label="Overlay widget. Drag inside the scene, tap to morph">
+<svg class="dotv" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="2.5" fill="#3DDC84"/></svg>
+<div class="cardv"><i></i>now playing.gif</div><span class="pillv">● recording 00:42</span>
+</div>
+</div>
+</div></div>
+
+<section id="how"><div class="wrap split">
+<div class="rv"><div class="kicker">How it works</div><h2>A layer <span class="fx">above</span> the layer above.</h2>
+<p class="body">Normal apps live inside their own window. An OWS overlay is drawn by the system compositor on <b>top of every window</b>, so it stays visible while you switch apps, games or desktops.</p>
+<span class="perm">Android: needs "Display over other apps"</span></div>
+<div class="rv"><div class="stack" id="stack">
+<div class="sl">Your app<span class="r">inside its window</span></div>
+<div class="sl">Other apps<span class="r">covered by each other</span></div>
+<div class="sl s3"><span class="tag">OWS + OWD</span>Overlay widget<span class="r">✓ always on top</span></div></div>
+<p class="cap">Scroll into view to see the overlay rise to the top.</p></div>
+</div></section>
+
+<section id="lang"><div class="wrap">
+<div class="rv"><div class="kicker">The languages</div><h2>Two files. <span class="fx">One</span> widget.</h2></div>
+<div class="duo rv" style="align-items:start">
+<div class="code"><div class="cb"><span class="fn">counter.ows</span><span class="lg">OWS · logic</span><button class="cp" data-cp="src">Copy</button></div><pre class="cbody" id="src"><span class="tk">attach</span> src = <span class="ts">"widget.owd"</span>
+<span class="tk">number</span> count = <span class="tn">0</span>
+
+<span class="tk">fun</span> formatCount(n) {
+    <span class="tk">return</span> <span class="ts">"Count: "</span> + str(n)
+}
+
+<span class="tk">when</span> Plus.clicked {
+    count = count + <span class="tn">1</span>
+    Counter.txt = formatCount(count)
+}
+
+<span class="tk">when</span> Minus.clicked {
+    count = count - <span class="tn">1</span>
+    <span class="tk">if</span> count &lt; <span class="tn">0</span> {
+        count = <span class="tn">0</span>
+    }
+    Counter.txt = formatCount(count)
+}</pre></div>
+<div class="code"><div class="cb"><span class="fn">counter.owd</span><span class="lg">OWD · design</span><button class="cp" data-cp="src2">Copy</button></div><pre class="cbody" id="src2"><span class="tk">Widget</span> CounterRoot {
+    width: <span class="tn">260</span>
+    height: <span class="tn">160</span>
+    radius: <span class="tn">24</span>
+    background: <span class="ts">"#151515"</span>
+
+    <span class="tk">Text</span> Counter {
+        txt: <span class="ts">"Count: 0"</span>
+        size: <span class="tn">28</span>
+        x: <span class="tn">16</span>
+        y: <span class="tn">24</span>
+    }
+
+    <span class="tk">Button</span> Minus {
+        txt: <span class="ts">"-"</span>
+        x: <span class="tn">16</span>
+        y: <span class="tn">90</span>
+        width: <span class="tn">50</span>
+        height: <span class="tn">48</span>
+        radius: <span class="tn">12</span>
+        background: <span class="ts">"#333333"</span>
+    }
+
+    <span class="tk">Button</span> Plus {
+        txt: <span class="ts">"+"</span>
+        x: <span class="tn">190</span>
+        y: <span class="tn">90</span>
+        width: <span class="tn">50</span>
+        height: <span class="tn">48</span>
+        radius: <span class="tn">12</span>
+        background: <span class="ts">"#1E88E5"</span>
+    }
+}</pre></div>
+</div><p class="cap">Official OWS and OWD syntax · v1.0</p></div></section>
+
+<section id="play"><div class="wrap">
+<div class="rv"><div class="kicker">Playground</div><h2>Change it, <span class="fx">watch</span> it move.</h2></div>
+<div class="pg">
+<div class="stage rv"><div class="ow" id="pgw" data-s="dot"><svg class="dotv" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="2.5" fill="#3DDC84"/></svg><div class="cardv"><i></i>now playing.gif</div><span class="pillv">● recording 00:42</span></div></div>
+<div class="rv"><div class="ctl">
+<div class="row"><span class="lab">Shape</span><div class="seg" id="segS"><button aria-pressed="true" data-v="dot">circle</button><button aria-pressed="false" data-v="card">card</button><button aria-pressed="false" data-v="pill">pill</button></div></div>
+<div class="row"><span class="lab">Glow</span><div class="seg" id="segG"><button aria-pressed="true" data-v="off">off</button><button aria-pressed="false" data-v="on">on</button></div></div>
+</div>
+<div class="code"><div class="cb"><span class="fn">live.owd</span><span class="lg">OWD</span></div><pre class="cbody" id="live" style="min-height:150px"></pre></div>
+</div></div></div></section>
+
+<section id="two"><div class="wrap">
+<div class="rv"><div class="kicker">Two languages, one system</div><h2>Logic in <span class="fx">OWS.</span> Looks in <span class="fx">OWD.</span></h2></div>
+<div class="duo rv">
+<div class="card hot"><span class="tag">OWS</span><h3>Overlay Widget Script</h3><p>The logic. Events, state and behaviour: what a widget does when you tap it, hold it, or something happens on the device.</p></div>
+<div class="card hot"><span class="tag">OWD</span><h3>Overlay Widget Design</h3><p>The design. Shape, size, colour, images and GIFs, kept separate from the logic so you can restyle without touching behaviour.</p></div>
+<div class="card"><h3>Shape-shifting</h3><p>A widget changes its form when an event triggers it: circle to card to pill.</p></div>
+<div class="card"><h3>Images and GIFs</h3><p>Overlays can show still images and animated GIFs, not just flat shapes.</p></div>
+<div class="card"><h3>Widgets from code</h3><p>Create widgets through programming, using the device's native wallpaper engine.</p></div>
+<div class="card"><h3>Overlay permission</h3><p>On Android it uses the system overlay permission to give you the "draw anywhere" power Windows has.</p></div>
+</div></div></section>
+
+<section id="features"><div class="wrap">
+<div class="rv"><div class="kicker">Language features</div><h2>Everything it <span class="fx">does.</span></h2></div>
+<div class="feats" id="feats"></div><p class="fcount" id="fc"></p></div></section>
+
+<section id="hosts"><div class="wrap">
+<div class="rv"><div class="kicker">Host manager</div><h2>Invisible. Automatic. <span class="fx">Always right.</span></h2>
+<p class="body">You never call it. A built-in host manager works in the background, works out where your script is running, and adapts. It also sees through <b>proot and fake or spoofed hosts</b> and handles them correctly instead of being fooled.</p></div>
+<div class="matrix">
+<div class="mx"><div class="h">Android</div><div class="sig">Uses the overlay permission</div><span class="st">✓ Detected</span></div>
+<div class="mx"><div class="h">Linux</div><div class="sig">Native Linux desktop hosts</div><span class="st">✓ Detected</span></div>
+<div class="mx"><div class="h">Windows</div><div class="sig">Native Windows hosts</div><span class="st">✓ Detected</span></div>
+<div class="mx"><div class="h">VM</div><div class="sig">Virtual machines recognised and adapted to</div><span class="st">✓ Detected</span></div>
+<div class="mx w"><div class="h">proot</div><div class="sig">Detected, then handled correctly</div><span class="st">Handled</span></div>
+<div class="mx w"><div class="h">Fake host</div><div class="sig">A host pretending to be something else is spotted and tackled</div><span class="st">Handled</span></div>
+</div></div></section>
+
+<section id="samples" class="page-section"><div class="wrap">
+<div class="page-head">
+<a class="back-btn" href="#top">← Back to main</a>
+</div>
+<div class="kicker">Samples</div>
+<h2>Runnable <span class="fx">examples.</span></h2>
+<p class="body">Real OWS + OWD files you can run with the CLI. Logic in <b>.ows</b>, looks in <b>.owd</b>.</p>
+
+<div class="sample-grid">
+<div class="code"><div class="cb"><span class="fn">counter/main.ows</span><span class="lg">OWS · logic</span></div>
+<pre class="cbody" style="min-height:auto"><span class="tc">// OWS — logic</span>
+<span class="tk">attach</span> src = <span class="ts">"widget.owd"</span>
+<span class="tk">number</span> count = <span class="tn">0</span>
+
+<span class="tk">fun</span> formatCount(n) {
+    <span class="tk">return</span> <span class="ts">"Count: "</span> + str(n)
+}
+
+<span class="tk">when</span> Plus.clicked {
+    count = count + <span class="tn">1</span>
+    Counter.txt = formatCount(count)
+}
+
+<span class="tk">when</span> Minus.clicked {
+    count = count - <span class="tn">1</span>
+    <span class="tk">if</span> count &lt; <span class="tn">0</span> { count = <span class="tn">0</span> }
+    Counter.txt = formatCount(count)
+}</pre></div>
+
+<div class="code"><div class="cb"><span class="fn">counter/main.owd</span><span class="lg">OWD · design</span></div>
+<pre class="cbody" style="min-height:auto"><span class="tk">Widget</span> CounterRoot {
+    width: <span class="tn">260</span>  height: <span class="tn">160</span>
+    radius: <span class="tn">24</span>
+    background: <span class="ts">"#151515"</span>
+
+    <span class="tk">Text</span> Counter {
+        txt: <span class="ts">"Count: 0"</span>  size: <span class="tn">28</span>
+        x: <span class="tn">16</span>  y: <span class="tn">24</span>
+    }
+    <span class="tk">Button</span> Minus {
+        txt: <span class="ts">"-"</span>
+        x: <span class="tn">16</span>  y: <span class="tn">90</span>
+        width: <span class="tn">50</span>  height: <span class="tn">48</span>
+        radius: <span class="tn">12</span>
+        background: <span class="ts">"#333333"</span>
+    }
+    <span class="tk">Button</span> Plus {
+        txt: <span class="ts">"+"</span>
+        x: <span class="tn">190</span>  y: <span class="tn">90</span>
+        width: <span class="tn">50</span>  height: <span class="tn">48</span>
+        radius: <span class="tn">12</span>
+        background: <span class="ts">"#1E88E5"</span>
+    }
+}</pre></div>
+</div>
+
+<div class="run-box">
+<h3>Download &amp; run</h3>
+<p style="color:var(--mut);margin:0 0 8px;font-size:15px">Get the CLI from GitHub, then:</p>
+<ol>
+<li>Download the release from <a href="https://github.com/Abhi13-coder/OWS-OWD" target="_blank" rel="noopener" style="color:var(--ac)">GitHub → Abhi13-coder/OWS-OWD</a></li>
+<li>Unzip — you get <code>ows</code> (and <code>ows.bat</code> on Windows)</li>
+<li>Put your <code>.ows</code> + matching <code>.owd</code> in the same folder</li>
+<li>Headless: <code>ows run main.ows</code></li>
+<li>Overlay: <code>ows run overlay main.ows</code></li>
+</ol>
+<p style="color:var(--dim);font:400 13px var(--mono);margin:16px 0 0">Omit <code>attach</code> and the runtime auto-picks a sibling <code>.owd</code>. Explicit <code>attach</code> always wins when present.</p>
+</div>
+</div></section>
+
+<section id="roadmap" class="page-section"><div class="wrap">
+<div class="page-head">
+<a class="back-btn" href="#top">← Back to main</a>
+</div>
+<div class="kicker">Roadmap</div>
+<h2>Where it’s <span class="fx">going.</span></h2>
+<p class="body">v1.0 is the working core. Everything after builds on the same OWS + OWD split.</p>
+
+<div class="roadmap-track" id="rmTrack">
+<div class="rm-item done">
+<div class="ver">v1.0 · current</div>
+<h3>Core overlays</h3>
+<p>Shape-shifting, button clicks, class events, animations (inside widget + overlay itself), online API, classes. Headless CLI + overlay path.</p>
+</div>
+<div class="rm-item">
+<div class="ver">v1.1</div>
+<h3>Media, wallpaper &amp; packages</h3>
+<p>Images &amp; GIFs, audio, wallpaper / lock-screen widgets, <code style="color:var(--ac)">ows install</code> / <code style="color:var(--ac)">owd install</code>, import, user-defined packages.</p>
+</div>
+<div class="rm-item">
+<div class="ver">v1.2</div>
+<h3>Exceptions + video</h3>
+<p>Built-in exception handling (Java/Kotlin style) and video support inside overlays.</p>
+</div>
+<div class="rm-item">
+<div class="ver">v1.3</div>
+<h3>PiP &amp; visual assistants</h3>
+<p>Picture-in-picture apps, official guides for visual assistants (VTuber-style / cute anime always-on characters), and a ready assistant package.</p>
+</div>
+<div class="rm-item">
+<div class="ver">v1.4</div>
+<h3>Offline AI</h3>
+<p>Official offline AI pipeline. Lightweight, RAM-tiered ML libraries and models (from ~250&nbsp;MB floor upward).</p>
+</div>
+<div class="rm-item">
+<div class="ver">v1.5</div>
+<h3>Data, sensors &amp; HUDs</h3>
+<p>Official database management, sensor-based radar-style visuals, and working HUDs.</p>
+</div>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap fw">
+<span>OWS + OWD — Script &amp; Design</span>
+<span style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+<a href="https://github.com/Abhi13-coder/OWS-OWD" target="_blank" rel="noopener" style="color:var(--mut);text-decoration:none">GitHub</a>
+<a href="get-started.html" style="color:var(--mut);text-decoration:none">Get Started</a>
+<a href="docs.html" style="color:var(--mut);text-decoration:none">Docs</a>
+<a href="samples.html" style="color:var(--mut);text-decoration:none">Samples</a>
+<a href="#roadmap" style="color:var(--mut);text-decoration:none">Roadmap</a>
+<span>draw over everything</span>
+</span>
+</div></footer>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+try{var ts=document.createElement('script');ts.async=true;ts.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';document.head.appendChild(ts)}catch(e){}
+var boot=$('boot'),bf=$('bf'),gate=$('gate'),term=$('term'),tv=$('tv'),mw=$('mw'),cap=$('cap'),pwr=$('pwr');
+var fin=false,stopped=false,started=false,AC=null,MG=null,useA=false,lost=false,n=0,t0=0,dispose=function(){};
+/* ONE timeline table: audio and visuals both read these numbers */
+var K={burst:32.5,zap:.3,duoIn:10.6,duoOut:17.2,pk:[12,12.7,13.4],merge:14.5,logo:17.5,shock:20.5,fill:21.5,demo:23,demoEnd:29.4,morph:[24.4,26,27.6],word:29.5};
+var ua=navigator.userAgent,host=/android/i.test(ua)?'android':/windows/i.test(ua)?'windows':/linux/i.test(ua)?'linux':'unknown';
+var L=[[1.6,'host manager','online'],[2.8,'detecting host',host],[4,'overlay permission','ready'],[5.2,'proot check','checked'],[6.4,'fake host check','checked'],[7.6,'vm check','checked'],[8.8,'ows runtime (logic)','loaded'],[10,'owd renderer (design)','loaded'],[18,'ows + owd bridge','linked'],[21.5,'widget','online']];
+L.forEach(function(l){var d=document.createElement('div');d.innerHTML=l[1]+' ... <b>'+l[2]+'</b>';term.appendChild(d);l.push(d)});
+var CAP=[[K.demo,'draws over any app'],[K.morph[0],'morphs on events'],[K.morph[1],'runs on any host'],[K.morph[2],'logic + design']];
+function finish(nat){if(fin)return;fin=true;started=true;document.body.classList.remove('pre');boot.classList.add('done');
+try{if(MG&&!nat)MG.gain.setTargetAtTime(0,AC.currentTime,.08)}catch(e){}
+setTimeout(function(){stopped=true;try{dispose()}catch(e){}try{AC&&AC.close()}catch(e){}document.body.classList.remove('lock');boot.remove()},1300)}
+$('skipB').onclick=function(){finish(false)};
+var ez=function(x){return 1-Math.pow(1-x,3)},cl=function(x){return Math.max(0,Math.min(1,x))};
+function rr(w,rad,k){var p=[],h=w/2,c=[[h-rad,h-rad,0],[-h+rad,h-rad,1],[-h+rad,-h+rad,2],[h-rad,-h+rad,3]];
+c.forEach(function(q){for(var i=0;i<=k;i++){var a=(q[2]+i/k)*Math.PI/2;p.push([q[0]+Math.cos(a)*rad,q[1]+Math.sin(a)*rad])}});p.push(p[0]);return p}
+var PTS=rr(1.5,.36,8),COLS=[0x586258,0x8fa393,0x3ddc84],OFF=[-.6,0,.6],N=420,ST=new Float32Array(N*3),TG=new Float32Array(N*3);
+(function(){for(var i=0;i<N;i++){var a=Math.random()*6.283,b=Math.acos(2*Math.random()-1),R=8+Math.random()*5,q=2.2+Math.random()*1.4;
+ST.set([R*Math.sin(b)*Math.cos(a),R*Math.sin(b)*Math.sin(a),R*Math.cos(b)],i*3);TG.set([q*Math.sin(b)*Math.cos(a),q*Math.sin(b)*Math.sin(a),q*Math.cos(b)],i*3)}})();
+/* every animated value comes from this one function of time */
+function TL(t){var o={};o.e=ez(cl((t-1)/6));o.fd=t>K.burst?1-cl((t-K.burst)/.5):1;o.bs=t>K.burst?1+(t-K.burst)*5:1;
+o.cz=11-5*ez(cl((t-1)/13));o.roll=Math.sin(t*.4)*.04;
+o.lf=t<K.demo-.4?1:t<K.demoEnd?1-ez(cl((t-K.demo+.4)/.6)):ez(cl((t-K.demoEnd)/.8));
+o.ro=ez(cl((t-2)/2))*.5*o.fd*(.4+.6*o.lf);o.sp=1+cl((t-20)/8)*2;
+o.ai=ez(cl((t-K.duoIn)/2))*(1-cl((t-16.5)/1));o.mv=ez(cl((t-K.merge)/3));
+o.dr=[0,1,2].map(function(i){return ez(cl((t-K.logo-i*.8)/1.2))});
+o.fill=ez(cl((t-K.fill)/1))*o.fd*o.lf;o.sk=(t>K.shock&&t<31.5)?((t-K.shock)%3.2)/3.2:-1;
+o.pk=K.pk.map(function(s,j){var u=(t-s)/.9;return u>0&&u<1?(-2.2+4.4*u)*(j%2?-1:1):99});
+o.pop=.9*o.fd*ez(cl(t/1.5));o.ps=.055+.02*Math.sin(t*2)*cl((t-20)/4);o.gy=Math.sin(t*1.1)*.35;o.gx=Math.cos(t*.8)*.15;return o}
+/* audio: scheduled from K, so it cannot drift from the visuals */
+function audio(A,n){var m=A.createGain();MG=m;m.gain.value=.5;m.connect(A.destination);
+var nb=A.createBuffer(1,A.sampleRate*2,A.sampleRate),nd=nb.getChannelData(0),i;for(i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
+function tone(f,t,d,ty,v,f2){var o=A.createOscillator(),g=A.createGain();o.type=ty;o.frequency.setValueAtTime(f,n+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n+t+d);g.gain.setValueAtTime(0,n+t);g.gain.linearRampToValueAtTime(v,n+t+.02);g.gain.exponentialRampToValueAtTime(.0001,n+t+d);o.connect(g);g.connect(m);o.start(n+t);o.stop(n+t+d+.05)}
+function nz(t,d,f0,f1,v){var s=A.createBufferSource(),b=A.createBiquadFilter(),g=A.createGain();s.buffer=nb;s.loop=true;b.type='bandpass';b.Q.value=1.2;b.frequency.setValueAtTime(f0,n+t);b.frequency.exponentialRampToValueAtTime(f1,n+t+d);g.gain.setValueAtTime(0,n+t);g.gain.linearRampToValueAtTime(v,n+t+d*.7);g.gain.linearRampToValueAtTime(0,n+t+d);s.connect(b);b.connect(g);g.connect(m);s.start(n+t);s.stop(n+t+d+.05)}
+tone(50,0,.9,'sine',.7,28);tone(60,.1,2.4,'sine',.22,700);nz(K.zap,.9,200,8000,.2);
+[55,55.6,82.4].forEach(function(f,k){var o=A.createOscillator(),lp=A.createBiquadFilter(),g=A.createGain();o.type='sawtooth';o.frequency.value=f;lp.type='lowpass';lp.frequency.setValueAtTime(100,n+1);lp.frequency.exponentialRampToValueAtTime(1400,n+28);g.gain.setValueAtTime(0,n+1);g.gain.linearRampToValueAtTime(k==2?.04:.08,n+14);g.gain.linearRampToValueAtTime(0,n+K.burst);o.connect(lp);lp.connect(g);g.connect(m);o.start(n+1);o.stop(n+K.burst+.5)});
+L.forEach(function(l,k){tone(900+k*45,l[0],.08,'sine',.1)});
+for(i=1;i<=14;i++)tone(62,i*2,.45,'sine',.1+i*.008,42);
+nz(.5,30,300,5000,.09);
+nz(K.duoIn-.2,.9,300,2500,.14);tone(70,K.duoIn,1.5,'sine',.4,40);[261,392,523].forEach(function(f){tone(f,K.duoIn+.2,3.5,'sine',.06)});tone(392,K.duoIn,.6,'triangle',.11);tone(494,K.duoIn,.6,'triangle',.11);
+K.pk.forEach(function(s,j){tone(1200,s,.06,'square',.03);tone([660,880,990][j],s+.9,.3,'triangle',.1)});
+nz(K.merge,2.8,300,3500,.16);
+[0,1,2].forEach(function(i){tone(330*(1+i*.5),K.logo+i*.8,.6,'triangle',.13)});
+tone(90,K.shock,1.4,'sine',.6,35);nz(K.shock,.7,2000,200,.25);
+[261,330,392,523].forEach(function(f){tone(f,K.fill,3.2,'sine',.07)});
+tone(700,K.demo,.15,'sine',.12);K.morph.forEach(function(t,k){tone(k==1?900:500,t,.25,'sine',.15,k==1?500:900)});
+CAP.forEach(function(c){tone(1500,c[0]+.02,.05,'square',.025)});
+[K.shock+3.2,K.shock+6.4,K.shock+9.6].forEach(function(t){tone(80,t,.8,'sine',.25,40)});
+tone(110,K.word,1.2,'sine',.35,55);nz(K.word,2.5,400,6000,.15);
+for(i=0;i<7;i++)tone(520+i*70,K.word+i*.1,.09,'sine',.09);
+nz(K.burst-1.1,1.6,400,7000,.25);tone(60,K.burst,1.2,'sine',.5,35);
+m.gain.setValueAtTime(.5,n+K.burst+.3);m.gain.linearRampToValueAtTime(0,n+K.burst+1.6)}
+/* renderer 1: three.js */
+function setup3(){var T=window.THREE;if(!T)throw 0;var cv=$('bc');
+var r=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:false,powerPreference:'low-power'});
+cv.addEventListener('webglcontextlost',function(e){e.preventDefault();lost=true});
+var sc=new T.Scene(),cam=new T.PerspectiveCamera(50,1,.1,60),g=new T.Group(),lines=[],i;sc.add(g);
+var v3=PTS.map(function(p){return new T.Vector3(p[0],p[1],0)});
+COLS.forEach(function(c,i){var geo=new T.BufferGeometry().setFromPoints(v3);geo.setDrawRange(0,0);var l=new T.Line(geo,new T.LineBasicMaterial({color:c,transparent:true}));l.position.set(OFF[i],OFF[i],i*.1);g.add(l);lines.push(l)});
+var fill=new T.Mesh(new T.ShapeGeometry(new T.Shape(PTS.map(function(p){return new T.Vector2(p[0],p[1])}))),new T.MeshBasicMaterial({color:0x3ddc84,transparent:true,opacity:0}));fill.position.set(.6,.6,.15);g.add(fill);
+var gm=function(){return new T.MeshBasicMaterial({color:0x3ddc84,transparent:true,opacity:0,side:T.DoubleSide})},lm=function(c){return new T.LineBasicMaterial({color:c,transparent:true,opacity:0})};
+var r1=new T.Mesh(new T.TorusGeometry(2.4,.008,6,90),gm()),r2=new T.Mesh(new T.TorusGeometry(3,.008,6,90),gm()),shock=new T.Mesh(new T.RingGeometry(.96,1,64),gm());
+var A1=new T.LineSegments(new T.EdgesGeometry(new T.IcosahedronGeometry(.95,0)),lm(0x3ddc84)),B1=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(1.3,1.3,1.3)),lm(0x7aa8ff));
+var link=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(-2.2,.2,0),new T.Vector3(2.2,.2,0)]),lm(0x8fa393));
+var pk=new Float32Array(9),pkg=new T.BufferGeometry();pkg.setAttribute('position',new T.BufferAttribute(pk,3));
+var pkm=new T.PointsMaterial({color:0xffffff,size:.14,transparent:true,opacity:0}),pkp=new T.Points(pkg,pkm);
+[r1,r2,shock,A1,B1,link,pkp].forEach(function(o){sc.add(o)});
+var cur=new Float32Array(N*3),pg=new T.BufferGeometry();pg.setAttribute('position',new T.BufferAttribute(cur,3));
+var pm=new T.PointsMaterial({color:0x3ddc84,size:.055,transparent:true,opacity:.9}),pp=new T.Points(pg,pm);sc.add(pp);
+var S=1;function rs(){var w=innerWidth,h=innerHeight;r.setPixelRatio(Math.min(devicePixelRatio||1,1.5));r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();S=Math.min(1,cam.aspect*1.25);[r1,r2,link,pkp].forEach(function(o){o.scale.setScalar(S)})}
+addEventListener('resize',rs);rs();
+dispose=function(){r.dispose();try{r.forceContextLoss()}catch(e){}};
+return function(t,o){var j;
+for(j=0;j<N*3;j++)cur[j]=ST[j]+(TG[j]-ST[j])*o.e;pg.attributes.position.needsUpdate=true;
+pp.rotation.y=t*.3;pp.rotation.x=t*.1;pp.scale.setScalar(S*o.bs);pm.opacity=o.pop;pm.size=o.ps;
+g.scale.setScalar(S*(1+(o.bs-1)*.15));g.rotation.y=o.gy;g.rotation.x=o.gx;
+cam.position.z=o.cz;cam.rotation.z=o.roll;
+r1.material.opacity=o.ro;r2.material.opacity=o.ro;r1.rotation.x=t*.5*o.sp;r1.rotation.y=t*.25*o.sp;r2.rotation.y=t*.4*o.sp;r2.rotation.z=t*.35*o.sp;
+var px=2.2*(1-o.mv)*S,sc2=S*(1-o.mv*.9)+.01;
+A1.position.set(-px,.2,0);B1.position.set(px,.2,0);A1.scale.setScalar(sc2);B1.scale.setScalar(sc2);
+A1.rotation.x=t*.8;A1.rotation.y=t*.6;B1.rotation.x=-t*.6;B1.rotation.y=t*.9;
+A1.material.opacity=o.ai*o.fd;B1.material.opacity=o.ai*o.fd;link.material.opacity=o.ai*.5*o.fd*(1-o.mv);
+for(j=0;j<3;j++){pk[j*3]=o.pk[j];pk[j*3+1]=.2;pk[j*3+2]=0}pkg.attributes.position.needsUpdate=true;pkm.opacity=o.ai*o.fd;
+lines.forEach(function(l,i){l.geometry.setDrawRange(0,Math.floor(o.dr[i]*PTS.length));l.material.opacity=o.fd*o.lf});
+fill.material.opacity=o.fill;
+if(o.sk>=0){shock.scale.setScalar((.2+o.sk*7)*S);shock.material.opacity=(1-o.sk)*.7*o.lf}else shock.material.opacity=0;
+r.render(sc,cam)}}
+/* renderer 2: plain canvas, used automatically if WebGL is missing or fails */
+function setup2d(){var old=$('bc'),cv=document.createElement('canvas');cv.id='bc';old.parentNode.replaceChild(cv,old);var c=cv.getContext('2d');if(!c)throw 0;
+var W,H,D,U,CY;function rs(){D=Math.min(devicePixelRatio||1,1.5);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;U=Math.min(W*.9,H*.62)/6.4;CY=H*.4}addEventListener('resize',rs);rs();
+function rot(p,ry,rx){var cy=Math.cos(ry),sy=Math.sin(ry),x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,cx=Math.cos(rx),sx=Math.sin(rx);return [x,p[1]*cx-z*sx,p[1]*sx+z*cx]}
+var cz=6;function pj(p){var k=U*6/(cz-p[2]);return [W/2+p[0]*k,CY-p[1]*k,k]}
+function path(pts,cnt,close){c.beginPath();for(var i=0;i<pts.length&&i<cnt;i++){var q=pts[i];i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])}if(close)c.closePath()}
+var CV=[],CE=[],OV=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]],OE=[],a,b,k;
+for(a=0;a<8;a++)CV.push([a&1?.65:-.65,a&2?.65:-.65,a&4?.65:-.65]);
+for(a=0;a<8;a++)for(b=a+1;b<8;b++){k=a^b;if(k==1||k==2||k==4)CE.push([a,b])}
+for(a=0;a<6;a++)for(b=a+1;b<6;b++)if(!(a>>1==b>>1))OE.push([a,b]);
+function shape(V,E,ry,rx,dx,sc,col,al,t){c.strokeStyle=col;c.globalAlpha=al;c.beginPath();E.forEach(function(e){var p=pj(rot([V[e[0]][0]*sc,V[e[0]][1]*sc,V[e[0]][2]*sc],ry,rx).map(function(v,i){return i==0?v+dx:v})),q=pj(rot([V[e[1]][0]*sc,V[e[1]][1]*sc,V[e[1]][2]*sc],ry,rx).map(function(v,i){return i==0?v+dx:v}));c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1])});c.stroke()}
+function ring(R,ax,ay,al){c.strokeStyle='#3ddc84';c.globalAlpha=al;c.beginPath();for(var i=0;i<=48;i++){var t=i/48*6.283,q=pj(rot(rot([Math.cos(t)*R,Math.sin(t)*R,0],ay,0),0,ax));i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])}c.stroke()}
+return function(t,o){cz=o.cz;c.setTransform(D,0,0,D,0,0);c.clearRect(0,0,W,H);c.lineWidth=1.5;var i,p,q;
+c.fillStyle='#3ddc84';c.globalAlpha=o.pop;
+for(i=0;i<N;i++){p=rot(rot([ST[i*3]+(TG[i*3]-ST[i*3])*o.e,ST[i*3+1]+(TG[i*3+1]-ST[i*3+1])*o.e,ST[i*3+2]+(TG[i*3+2]-ST[i*3+2])*o.e],t*.3,t*.1),0,0);p=[p[0]*o.bs,p[1]*o.bs,p[2]*o.bs];q=pj(p);c.fillRect(q[0],q[1],2,2)}
+ring(2.4,t*.5*o.sp,t*.25*o.sp,o.ro);ring(3,t*.35*o.sp,t*.4*o.sp,o.ro);
+var px=2.2*(1-o.mv),sc2=(1-o.mv*.9)+.01,al=o.ai*o.fd;
+if(al>.01){shape(OV,OE,t*.6,t*.8,-px,.95*sc2,'#3ddc84',al);shape(CV,CE,t*.9,-t*.6,px,sc2,'#7aa8ff',al);
+c.strokeStyle='#8fa393';c.globalAlpha=al*.5*(1-o.mv);c.beginPath();var l1=pj([-2.2,.2,0]),l2=pj([2.2,.2,0]);c.moveTo(l1[0],l1[1]);c.lineTo(l2[0],l2[1]);c.stroke();
+c.fillStyle='#fff';c.globalAlpha=al;o.pk.forEach(function(x){if(x<90){var d=pj([x,.2,0]);c.fillRect(d[0]-3,d[1]-3,6,6)}})}
+var la=o.fd*o.lf;
+if(la>.01){for(i=0;i<3;i++){var pts=PTS.map(function(v){var w=rot([v[0]+OFF[i],v[1]+OFF[i],i*.1],o.gy,o.gx);return pj(w)});
+c.strokeStyle=['#586258','#8fa393','#3ddc84'][i];c.globalAlpha=la;path(pts,Math.floor(o.dr[i]*pts.length))}
+if(o.fill>.01){var fp=PTS.map(function(v){return pj(rot([v[0]+.6,v[1]+.6,.15],o.gy,o.gx))});c.globalAlpha=o.fill;c.fillStyle='#3ddc84';path(fp,999,true);c.fill()}}
+if(o.sk>=0){var ce=pj([0,0,0]);c.strokeStyle='#3ddc84';c.globalAlpha=(1-o.sk)*.7*o.lf;c.beginPath();c.arc(ce[0],ce[1],(.2+o.sk*7)*ce[2],0,6.283);c.stroke()}
+c.globalAlpha=1}}
+/* one master clock drives every cue */
+function run(){var mode=null,fell=false,begun=false,ci=-1;
+try{mode=setup3()}catch(e){try{mode=setup2d()}catch(e2){mode=null}}
+function loop(now){if(stopped)return;requestAnimationFrame(loop);
+var t=(now-t0)/1000;if(useA&&AC.state==='running')t=AC.currentTime-n-(AC.baseLatency||0);
+if(t<0)return;
+if(!begun){begun=true;tv.classList.add('zap')}
+bf.style.width=Math.min(t/K.burst,1)*100+'%';
+if(t>.35)gate.classList.add('off');
+L.forEach(function(l){if(t>=l[0])l[3].classList.add('s')});
+boot.classList.toggle('s-duo',t>=K.duoIn&&t<K.duoOut);boot.classList.toggle('demo',t>=K.demo&&t<K.demoEnd);boot.classList.toggle('word',t>=K.word);
+var ms=t<K.morph[0]?'dot':t<K.morph[1]?'card':t<K.morph[2]?'pill':'dot';if(mw.dataset.s!==ms)mw.dataset.s=ms;
+var k=-1;CAP.forEach(function(c,i){if(t>=c[0])k=i});if(k!==ci){ci=k;cap.textContent=k<0?'':CAP[k][1]}
+if(mode){try{if(lost&&!fell)throw 0;mode(t,TL(t))}catch(e){if(!fell){fell=true;try{dispose()}catch(x){}try{mode=setup2d()}catch(y){mode=null}}else mode=null}}
+if(t>K.burst)finish(true)}
+requestAnimationFrame(loop);
+setTimeout(function(){finish(true)},(K.burst+4)*1000)}
+function start(){if(started)return;started=true;pwr.classList.add('on');
+try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}
+var done=false;function go(){if(done)return;done=true;
+useA=!!AC&&AC.state==='running';if(useA){n=AC.currentTime+.15;audio(AC,n)}else{try{AC&&AC.close()}catch(e){}AC=null}
+t0=performance.now()+150;run()}
+if(AC&&AC.resume){AC.resume().then(go,go);setTimeout(go,800)}else go()}
+pwr.onclick=start;
+})();
+</script>
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+var hd=$('#hd');function sc(){hd.classList.toggle('sc',scrollY>10)}addEventListener('scroll',sc,{passive:true});sc();
+/* reveal + page sections + roadmap items */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+$$('.rv,.mx,#stack,.rm-item,.page-section').forEach(function(el){io.observe(el)});
+$$('.mx').forEach(function(el,i){el.style.transitionDelay=(i*70)+'ms'});
+$$('.rm-item').forEach(function(el,i){el.style.transitionDelay=(i*100)+'ms'});
+/* hero widget: drag only inside #heroStage + tap to morph */
+var ow=$('#ow'),stage=$('#heroStage'),order=['dot','card','pill'],si=0,sx,sy,ox,oy,moved=false,down=false,pid=null;
+function clamp(){if(!stage||!ow)return;var sr=stage.getBoundingClientRect(),wr=ow.getBoundingClientRect();
+var left=Math.min(Math.max(wr.left-sr.left,0),Math.max(0,sr.width-wr.width));
+var top=Math.min(Math.max(wr.top-sr.top,0),Math.max(0,sr.height-wr.height));
+ow.style.left=left+'px';ow.style.top=top+'px';ow.style.right='auto';ow.style.bottom='auto';ow.style.position='absolute';ow.style.margin=0}
+function morph(){si=(si+1)%3;ow.dataset.s=order[si];setTimeout(clamp,560)}
+ow.addEventListener('pointerdown',function(e){down=true;moved=false;pid=e.pointerId;sx=e.clientX;sy=e.clientY;
+var r=ow.getBoundingClientRect(),sr=stage.getBoundingClientRect();ox=r.left-sr.left;oy=r.top-sr.top;
+ow.style.position='absolute';ow.style.margin=0;try{ow.setPointerCapture(pid)}catch(x){}});
+ow.addEventListener('pointermove',function(e){if(!down||e.pointerId!==pid)return;var dx=e.clientX-sx,dy=e.clientY-sy;
+if(!moved&&Math.abs(dx)+Math.abs(dy)<8)return;moved=true;ow.classList.add('drag');
+var sr=stage.getBoundingClientRect();
+var left=Math.min(Math.max(ox+dx,0),Math.max(0,sr.width-ow.offsetWidth));
+var top=Math.min(Math.max(oy+dy,0),Math.max(0,sr.height-ow.offsetHeight));
+ow.style.left=left+'px';ow.style.top=top+'px'});
+function end(ok){if(!down)return;down=false;ow.classList.remove('drag');try{ow.releasePointerCapture(pid)}catch(x){}if(ok&&!moved)morph()}
+ow.addEventListener('pointerup',function(){end(true)});ow.addEventListener('pointercancel',function(){end(false)});
+ow.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();morph()}});
+addEventListener('resize',function(){if(ow.style.position==='absolute')clamp()});
+/* playground */
+var pgw=$('#pgw'),live=$('#live'),shape='dot',glow='off';
+var names={dot:'circle',card:'card',pill:'pill'};
+function upd(){pgw.dataset.s=shape;pgw.style.boxShadow=glow==='on'?'0 0 40px 6px rgba(61,220,132,.45)':'none';
+live.innerHTML='<span class="tk">widget</span> <span class="ts">"demo"</span> {\n  <span class="tk">shape</span>  '+names[shape]+'\n  <span class="tk">glow</span>   '+glow+'\n}\n<span class="tc"># logic (OWS)</span>\n<span class="tk">on</span> tap { <span class="tk">morph</span> next }'}
+function seg(id,fn){var box=$(id);box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$$('button',box).forEach(function(x){x.setAttribute('aria-pressed',x===b)});fn(b.dataset.v);upd()})}
+seg('#segS',function(v){shape=v});seg('#segG',function(v){glow=v});upd();
+/* features + card fx */
+var F=[["Draw over any app","overlay permission on Android"],["Shape-shifting","morph on any event"],["Images & GIFs","still and animated overlays"],["Widgets from code","native wallpaper engine"],["Logic / design split","OWS + OWD"],["Invisible host manager","automatic, no config"],["Android · Linux · Windows","one script, every host"],["VM detection","recognised and adapted to"],["proot & fake hosts","spotted and handled"]];
+var fw=$('#feats');fw.innerHTML=F.map(function(f){return '<button class="feat" role="checkbox" aria-checked="false"><span class="bx"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" pathLength="1"/></svg></span><span>'+f[0]+'<small>'+f[1]+'</small></span></button>'}).join('');
+var fb=$$('.feat',fw),fc=$('#fc');function cnt(){fc.textContent=fb.filter(function(b){return b.getAttribute('aria-checked')==='true'}).length+' / '+fb.length+' features'}
+fb.forEach(function(b){b.addEventListener('click',function(){b.setAttribute('aria-checked',b.getAttribute('aria-checked')!=='true');cnt()})});cnt();
+new IntersectionObserver(function(es,o){if(es[0].isIntersecting){o.disconnect();fb.forEach(function(b,i){setTimeout(function(){b.setAttribute('aria-checked','true');cnt()},i*260)})}},{threshold:.3}).observe(fw);
+$$('.card,.feat').forEach(function(c){function pos(e){var r=c.getBoundingClientRect();c.style.setProperty('--x',(e.clientX-r.left)+'px');c.style.setProperty('--y',(e.clientY-r.top)+'px')}
+c.addEventListener('pointermove',pos);c.addEventListener('pointerdown',function(e){pos(e);c.classList.add('t')});
+['pointerup','pointercancel','pointerleave'].forEach(function(n){c.addEventListener(n,function(){setTimeout(function(){c.classList.remove('t')},500)})})});
+/* copy */
+$$('[data-cp]').forEach(function(b){b.addEventListener('click',function(){var t=$('#'+b.dataset.cp).textContent;try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1400)})}catch(e){}})});
+})();
+</script>
+</body>
+</html>
