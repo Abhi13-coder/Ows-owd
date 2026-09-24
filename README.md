@@ -46,7 +46,7 @@ Widget CounterRoot {
 
 | Package | Description | Link |
 |--------|-------------|------|
-| **CLI** | Headless + overlay command-line tool (`ows` / `ows.bat`) | _Coming with first release
+| **CLI** | Headless + overlay command-line tool (`ows` / `ows.bat`) | https://github.com/Abhi13-coder/Ows-owd/releases#release-Language
 
 ---
 
