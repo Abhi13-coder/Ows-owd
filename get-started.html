@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark">
+<title>Get Started with OWS + OWD — Install &amp; Build Your First Overlay</title>
+<meta name="description" content="Install the OWS + OWD CLI and build your first always-on-top overlay widget on Android, Linux, or Windows in five steps.">
+<meta name="keywords" content="how to draw over apps android, android overlay tutorial, ows cli install, build overlay widget windows linux">
+<meta name="author" content="Abhi13-coder">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://abhi13-coder.github.io/Ows-owd/get-started.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OWS + OWD">
+<meta property="og:title" content="Get Started with OWS + OWD">
+<meta property="og:description" content="Install the CLI and build your first always-on-top overlay widget in five steps.">
+<meta property="og:url" content="https://abhi13-coder.github.io/Ows-owd/get-started.html">
+<meta property="og:image" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Get Started with OWS + OWD",
+  "description": "Install the OWS + OWD CLI and build your first overlay widget.",
+  "step": [
+    {"@type": "HowToStep", "name": "Download the CLI", "text": "Download the CLI release from the GitHub Releases page."},
+    {"@type": "HowToStep", "name": "Unzip", "text": "Unzip to get the ows (or ows.bat on Windows) executable."},
+    {"@type": "HowToStep", "name": "Write a widget", "text": "Create a matching .ows logic file and .owd design file in the same folder."},
+    {"@type": "HowToStep", "name": "Run headless", "text": "Run 'ows run main.ows' to compile and register handlers without a GUI."},
+    {"@type": "HowToStep", "name": "Run as overlay", "text": "Run 'ows run overlay main.ows' to request a real always-on-top overlay through the Host Manager."}
+  ]
+}
+</script>
+<style>
+:root{--bg:#0A0D0B;--line:#212923;--tx:#F1F5EF;--mut:#9DAA9F;--ac:#3DDC84;--ink:#06130A;
+--disp:'Space Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 16.5px/1.7 var(--disp);padding-bottom:80px}
+.wrap{width:min(760px,100% - 48px);margin-inline:auto}
+header{padding:24px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+.logo{color:var(--ac);font-weight:700;text-decoration:none;font-size:19px}
+nav{margin-top:12px;display:flex;gap:20px;flex-wrap:wrap}
+nav a{color:var(--mut);text-decoration:none;font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+nav a:hover{color:var(--ac)}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 12px}
+h2{font-size:1.3rem;margin:40px 0 8px;color:var(--ac);display:flex;gap:10px;align-items:baseline}
+h2 .n{font:600 14px var(--mono);color:var(--ink);background:var(--ac);border-radius:999px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+p{color:var(--mut);max-width:65ch}
+code{font-family:var(--mono);background:#151915;padding:2px 6px;border-radius:4px;color:var(--ac);font-size:.9em}
+pre{background:#0D110E;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font:14px/1.6 var(--mono)}
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+a.inline{color:var(--ac)}
+.bt{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:11px;font:600 15px var(--disp);text-decoration:none;background:var(--ac);color:var(--ink);margin-top:8px}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="index.html">OWS + OWD</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="get-started.html">Get Started</a>
+    <a href="docs.html">Docs</a>
+    <a href="samples.html">Samples</a>
+    <a href="https://github.com/Abhi13-coder/OWS-OWD">GitHub</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <h1>Get Started</h1>
+  <p>Five steps to your first always-on-top overlay widget, on Android, Linux, or Windows.</p>
+
+  <h2><span class="n">1</span> Download the CLI</h2>
+  <p>Grab the CLI package from <a class="inline" href="https://github.com/Abhi13-coder/OWS-OWD/releases">GitHub Releases</a>.</p>
+
+  <h2><span class="n">2</span> Unzip</h2>
+  <p>You'll have:</p>
+  <pre>ows          # Unix / Linux / macOS
+ows.bat      # Windows</pre>
+
+  <h2><span class="n">3</span> Write a widget</h2>
+  <p>Create two files with matching names in the same folder — one <code>.ows</code> (logic), one <code>.owd</code> (design). See the <a class="inline" href="samples.html">samples page</a> for full working examples, or the <a class="inline" href="docs.html">language reference</a> for full syntax.</p>
+  <pre>main.ows
+main.owd</pre>
+
+  <h2><span class="n">4</span> Run headless</h2>
+  <p>Compiles the script and registers handlers, no GUI:</p>
+  <pre>ows run main.ows</pre>
+
+  <h2><span class="n">5</span> Run as a real overlay</h2>
+  <p>Requests an actual always-on-top overlay through the Host Manager. On Android this needs the "Display over other apps" permission — the runtime prompts for it automatically.</p>
+  <pre>ows run overlay main.ows</pre>
+
+  <p style="margin-top:32px">That's it — no build step, no app scaffolding. <a class="bt" href="samples.html">See full samples →</a></p>
+</main>
+
+<footer class="wrap">
+  <a class="logo" style="font-size:15px" href="index.html">OWS + OWD</a> — <a class="inline" href="https://github.com/Abhi13-coder/OWS-OWD">Source on GitHub</a>
+</footer>
+</body>
+</html>
