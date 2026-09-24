@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark">
+<title>OWS Language Reference — Overlay Widget Script Syntax &amp; API</title>
+<meta name="description" content="Full syntax reference for OWS (Overlay Widget Script) and OWD (Overlay Widget Design): events, variables, functions, classes, HTTP calls, and the widget property system.">
+<meta name="keywords" content="OWS syntax, overlay widget script reference, OWD design properties, overlay scripting language docs, ows owd api">
+<meta name="author" content="Abhi13-coder">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://abhi13-coder.github.io/Ows-owd/docs.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OWS + OWD">
+<meta property="og:title" content="OWS Language Reference — Syntax &amp; API">
+<meta property="og:description" content="Events, variables, functions, classes, HTTP calls, and the widget property system for OWS + OWD.">
+<meta property="og:url" content="https://abhi13-coder.github.io/Ows-owd/docs.html">
+<meta property="og:image" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "OWS Language Reference — Overlay Widget Script Syntax & API",
+  "description": "Full syntax reference for OWS (logic) and OWD (design): events, variables, functions, classes, HTTP calls, and widget properties.",
+  "author": { "@type": "Person", "name": "Abhi13-coder", "url": "https://github.com/Abhi13-coder" },
+  "mainEntityOfPage": "https://abhi13-coder.github.io/Ows-owd/docs.html",
+  "isPartOf": { "@type": "SoftwareApplication", "name": "OWS + OWD", "url": "https://abhi13-coder.github.io/Ows-owd/" }
+}
+</script>
+<style>
+:root{--bg:#0A0D0B;--line:#212923;--tx:#F1F5EF;--mut:#9DAA9F;--ac:#3DDC84;--ink:#06130A;
+--disp:'Space Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 16.5px/1.7 var(--disp);padding-bottom:80px}
+.wrap{width:min(880px,100% - 48px);margin-inline:auto}
+header{padding:24px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+.logo{color:var(--ac);font-weight:700;text-decoration:none;font-size:19px}
+nav{margin-top:12px;display:flex;gap:20px;flex-wrap:wrap}
+nav a{color:var(--mut);text-decoration:none;font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+nav a:hover{color:var(--ac)}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 12px}
+h2{font-size:1.5rem;margin:48px 0 12px;color:var(--ac)}
+h3{font-size:1.1rem;margin:28px 0 8px}
+p{color:var(--mut);max-width:70ch}
+code{font-family:var(--mono);background:#151915;padding:2px 6px;border-radius:4px;color:var(--ac);font-size:.9em}
+pre{background:#0D110E;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font:14px/1.6 var(--mono)}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:14px}
+th{color:var(--ac)}
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+a.inline{color:var(--ac)}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="index.html">OWS + OWD</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="get-started.html">Get Started</a>
+    <a href="docs.html">Docs</a>
+    <a href="samples.html">Samples</a>
+    <a href="https://github.com/Abhi13-coder/OWS-OWD">GitHub</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <h1>OWS Language Reference</h1>
+  <p>Full syntax for <strong>OWS</strong> (Overlay Widget Script — logic) and <strong>OWD</strong> (Overlay Widget Design — layout/style). OWS handles events, state and behaviour; OWD handles what the widget looks like. A widget is always two files working together.</p>
+
+  <h2>File structure</h2>
+  <p>An OWS file attaches to a sibling OWD file that defines the widget tree it controls.</p>
+  <pre>attach src = "widget.owd"
+number count = 0</pre>
+  <p>Omit <code>attach</code> and the runtime auto-picks a sibling <code>.owd</code> file with a matching name. An explicit <code>attach</code> always wins when present.</p>
+
+  <h2>Variables &amp; types</h2>
+  <pre>number count = 0
+string statusText = "Tap GET or POST"
+var payload = { "msg": "hello from OWS", "n": 42 }</pre>
+
+  <h2>Functions</h2>
+  <pre>fun formatCount(n) {
+    return "Count: " + str(n)
+}</pre>
+
+  <h2>Events</h2>
+  <p>OWS is event-driven. A <code>when</code> block runs whenever the named event fires — a tap, a class event, or a completed API call.</p>
+  <pre>when Plus.clicked {
+    count = count + 1
+    Counter.txt = formatCount(count)
+}</pre>
+
+  <h2>Control flow</h2>
+  <pre>if count &lt; 0 {
+    count = 0
+}</pre>
+
+  <h2>HTTP / API calls</h2>
+  <p>Async calls run on a background thread so the overlay UI stays responsive. Handle the result in a matching <code>when</code> block.</p>
+  <pre>when Fetch.clicked {
+    http.get_async("https://httpbin.org/get", "onGet")
+}
+
+when onGet {
+    var res = http.result("onGet")
+    if res.ok {
+        Status.txt = "OK " + str(res.status)
+    } else {
+        Status.txt = "Error"
+    }
+}</pre>
+  <p>POST works the same way with <code>http.post_async(url, payload, "eventName")</code>. See the full working example on the <a class="inline" href="samples.html">samples page</a>.</p>
+
+  <h2>OWD — widget design</h2>
+  <p>OWD is declarative: a widget tree of nested elements with layout and style properties. No behaviour is mixed in — that stays in OWS.</p>
+  <pre>Widget CounterRoot {
+    width: 260
+    height: 160
+    radius: 24
+    background: "#151515"
+
+    Text Counter {
+        txt: "Count: 0"
+        size: 28
+        x: 16
+        y: 24
+    }
+
+    Button Plus {
+        txt: "+"
+        x: 190
+        y: 90
+        width: 50
+        height: 48
+        radius: 12
+        background: "#1E88E5"
+    }
+}</pre>
+
+  <h3>Common OWD properties</h3>
+  <table>
+    <tr><th>Property</th><th>Applies to</th><th>Description</th></tr>
+    <tr><td><code>width</code> / <code>height</code></td><td>any element</td><td>Size in pixels</td></tr>
+    <tr><td><code>x</code> / <code>y</code></td><td>any element</td><td>Position within parent</td></tr>
+    <tr><td><code>radius</code></td><td>any element</td><td>Corner radius</td></tr>
+    <tr><td><code>background</code></td><td>any element</td><td>Hex color</td></tr>
+    <tr><td><code>txt</code></td><td>Text, Button</td><td>Displayed text (bindable from OWS)</td></tr>
+    <tr><td><code>size</code></td><td>Text</td><td>Font size</td></tr>
+  </table>
+
+  <h2>Host manager</h2>
+  <p>A built-in host manager detects where the script is running — Android (via the overlay permission), Linux, Windows, virtual machines, and even <code>proot</code> or spoofed/fake hosts — and adapts automatically. It's invisible: you never call it directly.</p>
+
+  <h2>Running a script</h2>
+  <pre># Headless — compiles and registers handlers, no GUI
+ows run main.ows
+
+# Requests a real overlay through the Host Manager
+ows run overlay main.ows</pre>
+</main>
+
+<footer class="wrap">
+  <a class="logo" style="font-size:15px" href="index.html">OWS + OWD</a> — <a class="inline" href="https://github.com/Abhi13-coder/OWS-OWD">Source on GitHub</a>
+</footer>
+</body>
+</html>
