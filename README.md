@@ -46,13 +46,7 @@ Widget CounterRoot {
 
 | Package | Description | Link |
 |--------|-------------|------|
-| **CLI** | Headless + overlay command-line tool (`ows` / `ows.bat`) | _Coming with first release_ |
-| **AAR (release)** | `ows-core` Android library — release build | _Coming with first release_ |
-| **AAR (debug)** | `ows-core` Android library — debug build | _Coming with first release_ |
-
-> Replace the placeholders above with real GitHub Release asset links when you publish v1.0.
-
-Put `logo.png` and `og.png` in the repo root (same folder as this README) so the images above render on GitHub.
+| **CLI** | Headless + overlay command-line tool (`ows` / `ows.bat`) | _Coming with first release
 
 ---
 
