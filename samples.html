@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark">
+<title>OWS + OWD Samples — Overlay Widget Examples (Counter, Async API)</title>
+<meta name="description" content="Runnable OWS + OWD sample projects: a counter overlay widget and an async HTTP API demo, with full source for both the .ows logic and .owd design files.">
+<meta name="keywords" content="ows owd examples, overlay widget sample code, android overlay widget tutorial, ows async http example">
+<meta name="author" content="Abhi13-coder">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://abhi13-coder.github.io/Ows-owd/samples.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OWS + OWD">
+<meta property="og:title" content="OWS + OWD Samples — Overlay Widget Examples">
+<meta property="og:description" content="Runnable sample projects: a counter overlay and an async HTTP API demo, full source included.">
+<meta property="og:url" content="https://abhi13-coder.github.io/Ows-owd/samples.html">
+<meta property="og:image" content="https://abhi13-coder.github.io/Ows-owd/og.png">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "OWS + OWD Samples — Overlay Widget Examples",
+  "description": "Runnable OWS + OWD sample projects: a counter overlay widget and an async HTTP API demo.",
+  "author": { "@type": "Person", "name": "Abhi13-coder", "url": "https://github.com/Abhi13-coder" },
+  "mainEntityOfPage": "https://abhi13-coder.github.io/Ows-owd/samples.html",
+  "isPartOf": { "@type": "SoftwareApplication", "name": "OWS + OWD", "url": "https://abhi13-coder.github.io/Ows-owd/" }
+}
+</script>
+<style>
+:root{--bg:#0A0D0B;--line:#212923;--tx:#F1F5EF;--mut:#9DAA9F;--ac:#3DDC84;
+--disp:'Space Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 16.5px/1.7 var(--disp);padding-bottom:80px}
+.wrap{width:min(880px,100% - 48px);margin-inline:auto}
+header{padding:24px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+.logo{color:var(--ac);font-weight:700;text-decoration:none;font-size:19px}
+nav{margin-top:12px;display:flex;gap:20px;flex-wrap:wrap}
+nav a{color:var(--mut);text-decoration:none;font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+nav a:hover{color:var(--ac)}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 12px}
+h2{font-size:1.5rem;margin:48px 0 8px;color:var(--ac)}
+p{color:var(--mut);max-width:70ch}
+.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0 0 8px;font:600 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ac)}
+pre{background:#0D110E;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--mono);margin:0}
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+a.inline{color:var(--ac)}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="index.html">OWS + OWD</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="get-started.html">Get Started</a>
+    <a href="docs.html">Docs</a>
+    <a href="samples.html">Samples</a>
+    <a href="https://github.com/Abhi13-coder/OWS-OWD">GitHub</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <h1>Samples</h1>
+  <p>Two runnable OWS + OWD projects. Each has a <code>.ows</code> logic file and a matching <code>.owd</code> design file — copy both into a folder and run with the CLI (<a class="inline" href="get-started.html">setup guide here</a>).</p>
+
+  <h2>1. Counter — the basics</h2>
+  <p>A minimal overlay widget: two buttons, one text field, incrementing/decrementing state. Good first widget to understand the OWS/OWD split.</p>
+  <div class="grid">
+    <div class="card"><h3>counter/main.ows</h3><pre>attach src = "widget.owd"
+number count = 0
+
+fun formatCount(n) {
+    return "Count: " + str(n)
+}
+
+when Plus.clicked {
+    count = count + 1
+    Counter.txt = formatCount(count)
+}
+
+when Minus.clicked {
+    count = count - 1
+    if count &lt; 0 { count = 0 }
+    Counter.txt = formatCount(count)
+}</pre></div>
+    <div class="card"><h3>counter/main.owd</h3><pre>Widget CounterRoot {
+    width: 260  height: 160
+    radius: 24
+    background: "#151515"
+
+    Text Counter {
+        txt: "Count: 0"  size: 28
+        x: 16  y: 24
+    }
+    Button Minus {
+        txt: "-"
+        x: 16  y: 90
+        width: 50  height: 48
+        radius: 12
+        background: "#333333"
+    }
+    Button Plus {
+        txt: "+"
+        x: 190  y: 90
+        width: 50  height: 48
+        radius: 12
+        background: "#1E88E5"
+    }
+}</pre></div>
+  </div>
+
+  <h2>2. API Demo — async HTTP</h2>
+  <p>Shows non-blocking GET and POST requests from inside an overlay. The request runs on a background thread; the result comes back through a named event so the widget's UI never freezes.</p>
+  <div class="grid">
+    <div class="card"><h3>api_demo/main.ows</h3><pre>attach src = "widget.owd"
+string statusText = "Tap GET or POST"
+
+when Fetch.clicked {
+    Status.txt = "Loading (async)..."
+    Body.txt = ""
+    http.get_async("https://httpbin.org/get", "onGet")
+}
+
+when onGet {
+    var res = http.result("onGet")
+    if res.ok {
+        Status.txt = "OK " + str(res.status)
+        var origin = res.json["origin"]
+        Body.txt = "origin=" + str(origin)
+    } else {
+        Status.txt = "Error"
+        Body.txt = str(res.error)
+    }
+}
+
+when PostBtn.clicked {
+    Status.txt = "Posting (async)..."
+    var payload = { "msg": "hello from OWS", "n": 42 }
+    http.post_async("https://httpbin.org/post", payload, "onPost")
+}
+
+when onPost {
+    var res = http.result("onPost")
+    if res.ok {
+        Status.txt = "Posted " + str(res.status)
+        Body.txt = str(res.json["json"])
+    } else {
+        Status.txt = "Post failed"
+        Body.txt = str(res.error)
+    }
+}</pre></div>
+    <div class="card"><h3>api_demo/main.owd</h3><pre>Widget ApiDemo {
+    width: 300  height: 220
+    radius: 20
+    background: "#121212"
+
+    Text Status { txt: "Tap Fetch"  size: 18  x: 16  y: 16 }
+    Text Body   { txt: ""           size: 14  x: 16  y: 50 }
+
+    Button Fetch {
+        txt: "GET"
+        x: 16  y: 150
+        width: 80  height: 44
+        radius: 10
+        background: "#2E7D32"
+    }
+    Button PostBtn {
+        txt: "POST"
+        x: 110  y: 150
+        width: 80  height: 44
+        radius: 10
+        background: "#1565C0"
+    }
+}</pre></div>
+  </div>
+</main>
+
+<footer class="wrap">
+  <a class="logo" style="font-size:15px" href="index.html">OWS + OWD</a> — full source and more samples in the <a class="inline" href="https://github.com/Abhi13-coder/OWS-OWD">GitHub repo</a>
+</footer>
+</body>
+</html>
